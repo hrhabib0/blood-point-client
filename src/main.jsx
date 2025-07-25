@@ -5,6 +5,13 @@ import { RouterProvider } from 'react-router'
 import { router } from './router/router.jsx'
 import AuthProvider from './contexts/AuthContext/AuthProvider.jsx'
 
+import 'aos/dist/aos.css';
+import Aos from 'aos'
+
+Aos.init({
+  duration: 800, // animation duration in ms
+  once: true,    // whether animation should happen only once
+})
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
