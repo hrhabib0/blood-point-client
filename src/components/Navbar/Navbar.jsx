@@ -1,13 +1,15 @@
-import { use } from 'react';
+import { use, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router';
-// import FastDropLogo from '../FastDropLogo/FastDropLogo';
-// import { AuthContext } from '../../contexts/AuthContexts/AuthContext';
-import Swal from 'sweetalert2';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
+import Swal from 'sweetalert2';
+import { FaChevronDown } from 'react-icons/fa';
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext)
     const navigate = useNavigate();
+    const [showDropdown, setShowDropdown] = useState(false);
+    const toggleDropdown = () => setShowDropdown(!showDropdown);
+
     const handleLogOut = () => {
         logOut()
             .then(() => {
@@ -25,15 +27,58 @@ const Navbar = () => {
             })
     }
     const navlinks = <>
-        <li><NavLink to={'/'}>Home</NavLink></li>
-        {/* {
-            user && <><li><NavLink to={'/dashboard'}>Dashboard</NavLink></li></>
-        }
-        <li><NavLink to={'/about'}>About</NavLink></li> */}
+        <li>
+            <NavLink
+                to="/"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-white bg-red-600 px-3 py-2 rounded font-semibold"
+                        : "text-white hover:bg-red-500 px-3 py-2 rounded transition"
+                }
+            >
+                Home
+            </NavLink>
+        </li>
+        <li>
+            <NavLink
+                to="/requests"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-white bg-red-600 px-3 py-2 rounded font-semibold"
+                        : "text-white hover:bg-red-500 px-3 py-2 rounded transition"
+                }
+            >
+                Donation Requests
+            </NavLink>
+        </li>
+        <li>
+            <NavLink
+                to="/blog"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-white bg-red-600 px-3 py-2 rounded font-semibold"
+                        : "text-white hover:bg-red-500 px-3 py-2 rounded transition"
+                }
+            >
+                Blog
+            </NavLink>
+        </li>
+        {user && (
+            <NavLink
+                to="/funding"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-white bg-red-600 px-3 py-2 rounded font-semibold"
+                        : "text-white hover:bg-red-500 px-3 py-2 rounded transition"
+                }
+            >
+                Funding
+            </NavLink>
+        )}
     </>
     return (
         <div>
-            <div className="navbar bg-base-100 shadow-sm">
+            <div className="navbar bg-red-700 shadow-lg text-white">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -45,24 +90,63 @@ const Navbar = () => {
                             {navlinks}
                         </ul>
                     </div>
-
+                    {/* Logo */}
                     <div>
-                        {/* <FastDropLogo></FastDropLogo> */}
+                        <Link to="/" className="text-xl font-bold text-white">
+                            <span className="text-white">🩸 BloodPoint</span>
+                        </Link>
                     </div>
                 </div>
+                {/* desktop navbar */}
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
                         {navlinks}
                     </ul>
                 </div>
                 <div className="navbar-end gap-4">
-                    {
-                        user ? <button onClick={handleLogOut} className='btn btn-soft btn-success'>Log Out</button> :
-                            <>
-                                <Link to={'/login'} className="btn btn-soft btn-success">Log In</Link>
-                                <Link to={'/register'} className="btn btn-success">Register</Link>
-                            </>
-                    }
+                    {!user ? (
+                        <Link
+                            to="/login"
+                            className="bg-white text-red-500 hover:text-white hover:bg-red-500 px-3 py-2 rounded transition"
+                        >
+                            Login
+                        </Link>
+                    ) : (
+                        <div className="relative">
+                            <button
+                                onClick={toggleDropdown}
+                                className="flex items-center space-x-2 focus:outline-none"
+                            >
+                                <img
+                                    src={user?.photoURL || "https://i.ibb.co/7G5Xz7y/avatar-placeholder.png"}
+                                    alt="avatar"
+                                    className="w-10 h-10 rounded-full border-2 border-white"
+                                />
+                                <FaChevronDown className="text-white text-sm" />
+                            </button>
+
+                            {showDropdown && (
+                                <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-md z-50">
+                                    <Link
+                                        to="/dashboard"
+                                        className="block px-4 py-2 hover:bg-red-100 transition"
+                                        onClick={() => setShowDropdown(false)}
+                                    >
+                                        Dashboard
+                                    </Link>
+                                    <button
+                                        onClick={() => {
+                                            handleLogOut();
+                                            setShowDropdown(false);
+                                        }}
+                                        className="w-full text-left px-4 py-2 hover:bg-red-100 transition"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -70,3 +154,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
