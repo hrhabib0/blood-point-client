@@ -6,6 +6,8 @@ import Login from "../pages/Authentication/Login/Login";
 import SearchDonor from "../pages/SearchDonor/SearchDonor";
 import Blogs from "../pages/Blogs/Blogs";
 import BlogDetails from "../components/Blogs/BlogDetails";
+import PrivateRoute from "../routes/PrivateRoute/PrivateRoute";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -36,5 +38,10 @@ export const router = createBrowserRouter([
             }
         ]
 
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        
     }
 ])
