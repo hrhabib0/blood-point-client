@@ -15,7 +15,7 @@ Aos.init({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <div className='font-inter max-w-7xl mx-auto'>
+    <div className=''>
       <AuthProvider>
         <RouterProvider router={router}></RouterProvider>
       </AuthProvider>
