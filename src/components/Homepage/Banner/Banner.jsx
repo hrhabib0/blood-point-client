@@ -27,7 +27,7 @@ const Banner = () => {
                     <Link to="/register" className="btn bg-white text-red-700 hover:bg-red-100 border-none">
                         <FaHandHoldingHeart className="text-lg" /> Join as a Donor
                     </Link>
-                    <Link to="/search" className="btn bg-red-700 text-white hover:bg-red-800 border-none">
+                    <Link to="/searchDonor" className="btn bg-red-700 text-white hover:bg-red-800 border-none">
                         <FaSearchLocation className="text-lg" /> Search Donors
                     </Link>
                 </div>
