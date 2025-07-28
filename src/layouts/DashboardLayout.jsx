@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
-import { FaHome, FaTint, FaUser } from 'react-icons/fa';
+import { FaHandHoldingHeart, FaHome, FaTint, FaUser } from 'react-icons/fa';
 
 const DashboardLayout = () => {
 
@@ -78,8 +78,13 @@ const DashboardLayout = () => {
 
 
                     <li>
-                        <NavLink 
-                        to="/dashboard/profile" 
+                        <NavLink to="/dashboard/create-donation-request">
+                            <FaHandHoldingHeart className="inline mr-2" />Create Donation Request
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/dashboard/profile"
                         >
                             <FaUser className="inline mr-2" />Profile
                         </NavLink>

@@ -24,7 +24,6 @@ const Profile = () => {
     enabled: !!user?.email
   });
 
-
   useEffect(() => {
     if (userData?.email) {
       setFormData(userData);
@@ -100,7 +99,6 @@ const Profile = () => {
           timerProgressBar: true,
         });
         setIsEditing(false);
-        // refetch();
       }
       console.log('fetch data', res)
     } catch (err) {
@@ -112,13 +110,6 @@ const Profile = () => {
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md mt-6 border border-gray-200">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold text-[#B71C1C]">My Profile</h2>
-        {/* <button
-          onClick={() => setIsEditing(!isEditing)}
-          className="flex items-center gap-2 bg-[#E53935] hover:bg-[#B71C1C] text-white px-4 py-2 rounded-lg transition"
-        >
-          {isEditing ? <FaSave /> : <FaEdit />}
-          {isEditing ? 'Save' : 'Edit'}
-        </button> */}
         {!isEditing ? (
           <button onClick={() => setIsEditing(true)} className="btn btn-sm bg-[#E53935] text-white hover:bg-[#B71C1C]">Edit</button>
         ) : (

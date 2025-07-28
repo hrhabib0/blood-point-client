@@ -9,6 +9,7 @@ import BlogDetails from "../components/Blogs/BlogDetails";
 import PrivateRoute from "../routes/PrivateRoute/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Profile from "../pages/Dashboard/Profile/Profile";
+import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest/CreateDonationRequest";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
             {
                 path: 'profile',
                 Component: Profile
+            },
+            {
+                path: 'create-donation-request',
+                Component: CreateDonationRequest
             }
         ]
     }
