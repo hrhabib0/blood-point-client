@@ -8,6 +8,7 @@ import Blogs from "../pages/Blogs/Blogs";
 import BlogDetails from "../components/Blogs/BlogDetails";
 import PrivateRoute from "../routes/PrivateRoute/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
+import Profile from "../pages/Dashboard/Profile/Profile";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -42,6 +43,11 @@ export const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-        
+        children: [
+            {
+                path: 'profile',
+                Component: Profile
+            }
+        ]
     }
 ])

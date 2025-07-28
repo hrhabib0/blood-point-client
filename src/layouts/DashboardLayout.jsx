@@ -53,7 +53,7 @@ const DashboardLayout = () => {
 
 
                             <li>
-                                <NavLink to="/dashboard/myProfile">
+                                <NavLink to="/dashboard/profile">
                                     <FaUser className="inline mr-2" />Profile
                                 </NavLink>
                             </li>
@@ -79,7 +79,7 @@ const DashboardLayout = () => {
 
                     <li>
                         <NavLink 
-                        to="/dashboard/myProfile" 
+                        to="/dashboard/profile" 
                         >
                             <FaUser className="inline mr-2" />Profile
                         </NavLink>
