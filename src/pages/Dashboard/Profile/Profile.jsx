@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
 const Profile = () => {
-  const { user } = use(AuthContext);
+  const { user, updateUserProfile, setUser } = use(AuthContext);
   const axiosSecure = useAxiosSecure();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({});
@@ -88,9 +88,24 @@ const Profile = () => {
       }
     }
 
+    // update user in firebase
+    const profileInfo = {
+      displayName: updatedData?.name,
+      photoURL: updatedData?.avatar,
+    }
+    // update user information
+    await updateUserProfile(profileInfo)
+      .then(() => {
+        setUser({ ...user, ...profileInfo })
+        console.log("user update done")
+      })
+      .catch(errors => {
+        console.log(errors)
+      })
+
     try {
       const res = await axiosSecure.put(`/users?email=${user.email}`, updatedData);
-      if (res.data.modifiedCount > 0) {
+      if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
         Swal.fire({
           icon: 'success',
           title: 'Profile updated successfully',

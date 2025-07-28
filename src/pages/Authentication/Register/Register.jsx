@@ -62,13 +62,6 @@ const Register = () => {
                             .catch(errors => {
                                 console.log(errors)
                             })
-
-                        // send userInfo to db and update it
-                        // const userInfo = {
-                        //     userName: user.displayName,
-                        //     userEmail: user.email,
-                        //     userImage: profileImage,
-                        // }
                         const userInfo = {
                             name: data.name,
                             email: data.email,

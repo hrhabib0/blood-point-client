@@ -41,8 +41,6 @@ const CreateDonationRequest = () => {
             requesterName: user?.displayName,
             requesterEmail: user?.email,
         };
-        console.log('form data', data)
-        console.log('sendig data', requestData)
 
         try {
             const res = await axiosSecure.post("/donation-requests", requestData);
