@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
@@ -32,7 +32,7 @@ const DonorHome = () => {
                 const res = await axiosSecure.patch(`/donation-requests/status/${id}`, {
                     status: newStatus,
                 });
-                if (res.data.modifiedCount > 0) {
+                if (res.data?.result?.modifiedCount > 0) {
                     Swal.fire("Updated!", "Status updated successfully.", "success");
                     refetch();
                 }
@@ -108,10 +108,10 @@ const DonorHome = () => {
                                     <td className="px-3 py-2">{req.bloodGroup}</td>
                                     <td className="px-3 py-2 capitalize">{req.status}</td>
                                     <td className="px-3 py-2">
-                                        {req.status === "inprogress" && req.donorInfo ? (
+                                        {req.status === "inprogress"  ? (
                                             <>
-                                                <p>{req.donorInfo.name}</p>
-                                                <p>{req.donorInfo.email}</p>
+                                                <p>{req.donorName}</p>
+                                                <p>{req.donorEmail}</p>
                                             </>
                                         ) : (
                                             "--"
