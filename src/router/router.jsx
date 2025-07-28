@@ -13,6 +13,7 @@ import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest/Crea
 import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 import DonationRequestDetails from "../pages/Dashboard/DonationRequestDetails/DonationRequestDetails";
 import MyDonationRequests from "../pages/Dashboard/MyDonationRequests/MyDonationRequests";
+import AllDonationsRequests from "../pages/AllDonationsRequests/AllDonationsRequests";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
             {
                 path: 'searchDonor',
                 Component: SearchDonor,
+            },
+            {
+                path: 'all-donations-requests',
+                Component: AllDonationsRequests
             },
             {
                 path: 'blogs',
