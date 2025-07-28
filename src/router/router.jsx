@@ -10,6 +10,7 @@ import PrivateRoute from "../routes/PrivateRoute/PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest/CreateDonationRequest";
+import DashboardHome from "../pages/Dashboard/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
+            {
+                index: true,
+                Component: DashboardHome,
+            },
             {
                 path: 'profile',
                 Component: Profile

@@ -47,7 +47,9 @@ const DashboardLayout = () => {
                                 </Link>
                             </div>
                             <li>
-                                <a><FaHome className="inline mr-2" />Home</a>
+                                <NavLink to="/dashboard">
+                                    <FaHome className="inline mr-2" />Home
+                                </NavLink>
                             </li>
                             {/* rolebased links will be here */}
 
@@ -72,7 +74,9 @@ const DashboardLayout = () => {
                         </Link>
                     </div>
                     <li>
-                        <a><FaHome className="inline mr-2" />Home</a>
+                        <NavLink to="/dashboard">
+                            <FaHome className="inline mr-2" />Home
+                        </NavLink>
                     </li>
                     {/* rolebased links will be here */}
 
