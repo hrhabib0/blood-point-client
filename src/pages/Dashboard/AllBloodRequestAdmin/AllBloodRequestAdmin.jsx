@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Link } from "react-router";
 
 
-const MyDonationRequests = () => {
+const AllBloodRequestAdmin = () => {
     const { user } = use(AuthContext);
     const axiosSecure = useAxiosSecure();
     const [statusFilter, setStatusFilter] = useState(""); // filter by status
@@ -16,7 +16,7 @@ const MyDonationRequests = () => {
     const { data: requests = [] } = useQuery({
         queryKey: ["donationRequests", user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/donation-requests?email=${user.email}`);
+            const res = await axiosSecure.get(`/donation-requests`);
             return res.data;
         },
         enabled: !!user?.email
@@ -37,7 +37,7 @@ const MyDonationRequests = () => {
         setCurrentPage(1); // Reset to first page when filter changes
     };
 
-    
+
 
     return (
         <div className="p-5 space-y-4">
@@ -74,7 +74,7 @@ const MyDonationRequests = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                         {currentItems.length === 0 ? (
                             <tr>
                                 <td colSpan="6" className="text-center py-4 text-gray-500">No donation requests found.</td>
@@ -124,4 +124,4 @@ const MyDonationRequests = () => {
     );
 };
 
-export default MyDonationRequests;
+export default AllBloodRequestAdmin;

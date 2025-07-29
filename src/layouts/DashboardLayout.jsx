@@ -57,6 +57,13 @@ const DashboardLayout = () => {
                                     <FaUsers className="inline mr-2" />All Users
                                 </NavLink>
                             </li>
+                            <li>
+                                <NavLink to="/dashboard/all-blood-donation-request">
+                                    <FaTint className="inline mr-2" />All Donation Requests
+                                </NavLink>
+                            </li>
+
+
 
                             <li>
                                 <NavLink to="/dashboard/create-donation-request">
@@ -98,6 +105,13 @@ const DashboardLayout = () => {
                             <FaUsers className="inline mr-2" />All Users
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/dashboard/all-blood-donation-request">
+                            <FaTint className="inline mr-2" />All Donation Requests
+                        </NavLink>
+                    </li>
+
+
 
                     <li>
                         <NavLink to="/dashboard/create-donation-request">
