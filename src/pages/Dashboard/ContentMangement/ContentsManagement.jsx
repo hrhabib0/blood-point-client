@@ -4,18 +4,20 @@ import axios from "axios"; // replace with axiosSecure if available
 import Swal from "sweetalert2";
 import { FaTrash, FaEdit, FaUpload, FaDownload } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
+import useUserRole from "../../../hooks/useUserRole";
 
 const STATUS_OPTIONS = ["all", "draft", "published"];
 
-const ContentsManagement = ({ user }) => {
+const ContentsManagement = () => {
     // const [blogs, setBlogs] = useState([]);
     const [filterStatus, setFilterStatus] = useState("all");
     const [currentPage, setCurrentPage] = useState(1);
+    const { role } = useUserRole()
     const blogsPerPage = 6;
 
     // Fetch blogs from backend with optional status filter
-    const { data: blogs = [] } = useQuery({
-        queryKey:  ["blogs", filterStatus],
+    const { data: blogs = [], refetch } = useQuery({
+        queryKey: ["blogs", filterStatus],
         queryFn: async () => {
             const query = filterStatus !== "all" ? `?status=${filterStatus}` : "";
             const res = await axios.get(`http://localhost:3000/content/blogs${query}`);
@@ -23,7 +25,6 @@ const ContentsManagement = ({ user }) => {
             return res.data || [];
         },
     });
-    console.log(blogs)
 
     // Pagination logic
     const indexOfLast = currentPage * blogsPerPage;
@@ -33,10 +34,11 @@ const ContentsManagement = ({ user }) => {
 
     // Publish / Unpublish blog (admin only)
     const togglePublish = async (id, currentStatus) => {
-        if (!user?.role === "admin") {
+        if (!role === "admin") {
             Swal.fire("Unauthorized", "Only admins can change blog status.", "warning");
             return;
         }
+        console.log(currentStatus)
 
         const newStatus = currentStatus === "draft" ? "published" : "draft";
 
@@ -49,19 +51,23 @@ const ContentsManagement = ({ user }) => {
         });
 
         if (!confirmResult.isConfirmed) return;
-
-        try {
-            await axios.patch(`/api/blogs/${id}/status`, { status: newStatus });
-            Swal.fire("Success", `Blog is now ${newStatus}`, "success");
-        } catch (err) {
-            console.error("Failed to update blog status", err);
-            Swal.fire("Error", "Failed to update status", "error");
+        if (confirmResult.isConfirmed) {
+            console.log(newStatus)
+            try {
+                await axios.patch(`http://localhost:3000/content/blogs/${id}/status`, { status: newStatus });
+                Swal.fire("Success", `Blog is now ${newStatus}`, "success");
+                refetch()
+            } catch (err) {
+                console.error("Failed to update blog status", err);
+                Swal.fire("Error", "Failed to update status", "error");
+            }
         }
+
     };
 
     // Delete blog (admin only)
     const deleteBlog = async (id) => {
-        if (!user?.role === "admin") {
+        if (!role === "admin") {
             Swal.fire("Unauthorized", "Only admins can delete blogs.", "warning");
             return;
         }
@@ -77,8 +83,9 @@ const ContentsManagement = ({ user }) => {
         if (!confirmResult.isConfirmed) return;
 
         try {
-            await axios.delete(`/api/blogs/${id}`);
+            await axios.delete(`http://localhost:3000/content/blogs/${id}`);
             Swal.fire("Deleted!", "Blog has been deleted.", "success");
+            refetch()
         } catch (err) {
             console.error("Failed to delete blog", err);
             Swal.fire("Error", "Failed to delete blog", "error");
@@ -137,8 +144,8 @@ const ContentsManagement = ({ user }) => {
                         <h3 className="text-xl font-semibold mb-1 text-red-800">{blog.title}</h3>
                         <span
                             className={`inline-block px-2 py-1 rounded text-xs font-semibold mb-2 ${blog.status === "published"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-yellow-100 text-yellow-700"
                                 }`}
                         >
                             {blog.status.toUpperCase()}
@@ -150,22 +157,22 @@ const ContentsManagement = ({ user }) => {
                         </p>
 
                         <div className="flex gap-2">
-                            {/* Edit button - optional */}
-                            <Link
+                            {/* Edit button - optional task .. will be done later*/}
+                            {/* <Link
                                 to={`/dashboard/content-management/edit-blog/${blog._id}`}
                                 className="flex items-center gap-1 text-yellow-700 hover:text-yellow-800"
                                 title="Edit blog"
                             >
                                 <FaEdit /> Edit
-                            </Link>
+                            </Link> */}
 
                             {/* Publish / Unpublish */}
-                            {user?.role === "admin" && (
+                            {role === "admin" && (
                                 <button
                                     onClick={() => togglePublish(blog._id, blog.status)}
                                     className={`flex items-center gap-1 px-3 py-1 rounded text-white ${blog.status === "draft"
-                                            ? "bg-green-600 hover:bg-green-700"
-                                            : "bg-yellow-600 hover:bg-yellow-700"
+                                        ? "bg-green-600 hover:bg-green-700"
+                                        : "bg-yellow-600 hover:bg-yellow-700"
                                         }`}
                                     title={blog.status === "draft" ? "Publish blog" : "Unpublish blog"}
                                 >
@@ -175,7 +182,7 @@ const ContentsManagement = ({ user }) => {
                             )}
 
                             {/* Delete */}
-                            {user?.role === "admin" && (
+                            {role === "admin" && (
                                 <button
                                     onClick={() => deleteBlog(blog._id)}
                                     className="flex items-center gap-1 px-3 py-1 rounded text-white bg-red-700 hover:bg-red-800"
@@ -204,8 +211,8 @@ const ContentsManagement = ({ user }) => {
                         <button
                             key={idx}
                             className={`px-3 py-1 rounded border ${currentPage === idx + 1
-                                    ? "bg-red-700 text-white border-red-700"
-                                    : "border-gray-300"
+                                ? "bg-red-700 text-white border-red-700"
+                                : "border-gray-300"
                                 }`}
                             onClick={() => setCurrentPage(idx + 1)}
                         >
