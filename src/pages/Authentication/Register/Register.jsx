@@ -32,7 +32,6 @@ const Register = () => {
         const sinlgeDistrictData = districtsData.find(
             (district) => district.id === data.district
         );
-        console.log(sinlgeDistrictData)
         try {
             // upload image to imgbb
             const imageFile = data.avatar[0];
@@ -57,7 +56,6 @@ const Register = () => {
                         await updateUserProfile(profileInfo)
                             .then(() => {
                                 setUser({ ...user, ...profileInfo })
-                                console.log("user update done")
                             })
                             .catch(errors => {
                                 console.log(errors)
@@ -73,7 +71,7 @@ const Register = () => {
                             role: 'donor',
                             staus: 'active'
                         };
-                        const userRes = await axios.post('http://localhost:3000/users', userInfo);
+                        const userRes = await axios.post('https://blood-point-server.vercel.app/users', userInfo);
 
                         // after update successful navigate and show alert
                         if (userRes.data.insertedId) {
@@ -85,7 +83,6 @@ const Register = () => {
                                 timer: 1500
                             });
                             navigate('/')
-                            console.log('User Info:', userRes.data);
                             setLoading(false)
                         }
                     }
@@ -102,7 +99,7 @@ const Register = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg my-10">
             <h2 className="text-2xl font-semibold mb-4 text-center text-green-600">Register</h2>
             <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
                 <input
@@ -180,7 +177,7 @@ const Register = () => {
                 {errors.confirm_password && <span className='text-red-600'>{errors.confirm_password.message}</span>}
                 <button type="submit" className="btn btn-success w-full" disabled={loading}>
                     {loading ? (
-                        <span className="loading loading-spinner loading-sm">Loading...</span>
+                        <span className="loading loading-spinner loading-sm text-red-700">Loading...</span>
                     ) : (
                         'Register'
                     )}

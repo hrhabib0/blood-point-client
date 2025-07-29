@@ -23,6 +23,7 @@ const AllBloodRequestAdmin = () => {
         enabled: !!user?.email
     });
 
+
     const filteredRequests = statusFilter
         ? requests.filter(req => req.status === statusFilter)
         : requests;
@@ -59,6 +60,35 @@ const AllBloodRequestAdmin = () => {
         } catch (err) {
             console.error(err);
             Swal.fire("Error", "Failed to update status.", "error");
+        }
+    };
+    // handle delete button
+    const handleDelete = async (id) => {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                title: "Are you sure you want to delete this request?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+            });
+
+            if (isConfirmed) {
+                const res = await axiosSecure.delete(`/donation-requests/${id}`);
+                if (res.data.deletedCount > 0) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Request deleted successfully.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500, // closes after 2 seconds
+                        timerProgressBar: true,
+                    });
+                    refetch()
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error", "Failed to delete request.", "error");
         }
     };
 
@@ -118,7 +148,7 @@ const AllBloodRequestAdmin = () => {
                                         {req.status}
                                     </span>
                                 </td>
-                                <td className="border px-4 py-2 text-sm text-blue-600 underline cursor-pointer">
+                                <td className="px-4 py-2 text-sm cursor-pointer flex flex-wrap gap-1 justify-center items-center">
                                     {req.status === "inprogress" && (
                                         <>
                                             <button
@@ -135,6 +165,18 @@ const AllBloodRequestAdmin = () => {
                                             </button>
                                         </>
                                     )}
+                                    <Link
+                                        to={`/dashboard/edit-donation-request/${req._id}`}
+                                        className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                    >
+                                        Edit
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(req._id)}
+                                        className="bg-red-600 text-white px-2 py-1 rounded text-xs"
+                                    >
+                                        Delete
+                                    </button>
                                     <Link
                                         to={`/dashboard/donation-request-details/${req._id}`}
                                         className="bg-blue-500 text-white px-2 py-1 rounded text-xs"

@@ -19,6 +19,7 @@ import AllBloodRequestAdmin from "../pages/Dashboard/AllBloodRequestAdmin/AllBlo
 import ContentsManagement from "../pages/Dashboard/ContentMangement/ContentsManagement";
 import AddBlog from "../pages/Dashboard/AddBlog/AddBlog";
 import AdminRoute from "../routes/AdminRoute/AdminRoute";
+import EditDonationRequest from "../pages/Dashboard/EditDonationRequest/EditDonationRequest";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -76,8 +77,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'content-management',
-                // Component: ContentsManagement,
                 element: <AdminRoute><ContentsManagement></ContentsManagement></AdminRoute>
+            },
+            {
+                path: 'edit-donation-request/:id',
+                element: <EditDonationRequest></EditDonationRequest>
             },
             {
                 path: 'content-management/add-blog',

@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { format } from "date-fns";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 
 const MyDonationRequests = () => {
@@ -13,7 +14,7 @@ const MyDonationRequests = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    const { data: requests = [] } = useQuery({
+    const { data: requests = [], refetch } = useQuery({
         queryKey: ["donationRequests", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/donation-requests?email=${user.email}`);
@@ -36,8 +37,59 @@ const MyDonationRequests = () => {
         setStatusFilter(e.target.value);
         setCurrentPage(1); // Reset to first page when filter changes
     };
+    const handleStatusChange = async (id, newStatus) => {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                title: `Are you sure you want to mark as ${newStatus}?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, confirm!",
+            });
 
-    
+            if (isConfirmed) {
+                const res = await axiosSecure.patch(`/donation-requests/status/${id}`, {
+                    status: newStatus,
+                });
+                if (res.data?.result?.modifiedCount > 0) {
+                    Swal.fire("Updated!", "Status updated successfully.", "success");
+                    refetch();
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error", "Failed to update status.", "error");
+        }
+    };
+    const handleDelete = async (id) => {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                title: "Are you sure you want to delete this request?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+            });
+
+            if (isConfirmed) {
+                const res = await axiosSecure.delete(`/donation-requests/${id}`);
+                if (res.data.deletedCount > 0) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Request deleted successfully.",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500, // closes after 2 seconds
+                        timerProgressBar: true,
+                    });
+                    refetch()
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error", "Failed to delete request.", "error");
+        }
+    };
+
+
 
     return (
         <div className="p-5 space-y-4">
@@ -74,7 +126,7 @@ const MyDonationRequests = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                         {currentItems.length === 0 ? (
                             <tr>
                                 <td colSpan="6" className="text-center py-4 text-gray-500">No donation requests found.</td>
@@ -94,7 +146,35 @@ const MyDonationRequests = () => {
                                         {req.status}
                                     </span>
                                 </td>
-                                <td className="border px-4 py-2 text-sm text-blue-600 underline cursor-pointer">
+                                <td className="px-3 py-2 flex flex-wrap gap-1 justify-center items-center">
+                                    {req.status === "inprogress" && (
+                                        <>
+                                            <button
+                                                onClick={() => handleStatusChange(req._id, "done")}
+                                                className="bg-green-500 text-white px-2 py-1 rounded text-xs"
+                                            >
+                                                Done
+                                            </button>
+                                            <button
+                                                onClick={() => handleStatusChange(req._id, "canceled")}
+                                                className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </>
+                                    )}
+                                    <Link
+                                        to={`/dashboard/edit-donation-request/${req._id}`}
+                                        className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                    >
+                                        Edit
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(req._id)}
+                                        className="bg-red-600 text-white px-2 py-1 rounded text-xs"
+                                    >
+                                        Delete
+                                    </button>
                                     <Link
                                         to={`/dashboard/donation-request-details/${req._id}`}
                                         className="bg-blue-500 text-white px-2 py-1 rounded text-xs"

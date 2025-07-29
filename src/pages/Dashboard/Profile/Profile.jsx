@@ -97,7 +97,6 @@ const Profile = () => {
     await updateUserProfile(profileInfo)
       .then(() => {
         setUser({ ...user, ...profileInfo })
-        console.log("user update done")
       })
       .catch(errors => {
         console.log(errors)
@@ -115,7 +114,6 @@ const Profile = () => {
         });
         setIsEditing(false);
       }
-      console.log('fetch data', res)
     } catch (err) {
       alert('Update failed', err);
     }

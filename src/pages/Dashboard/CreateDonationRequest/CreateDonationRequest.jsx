@@ -7,6 +7,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import districtsData from "../../../../public/fakeData/districts.json";
 import upazilasData from "../../../../public/fakeData/upazilas.json";
 import Swal from "sweetalert2";
+import { useQuery } from "@tanstack/react-query";
 
 
 const CreateDonationRequest = () => {
@@ -16,6 +17,15 @@ const CreateDonationRequest = () => {
     const [upazilas, setUpazilas] = useState([]);
 
     const selectedDistrict = watch("recipientDistrict");
+
+    const { data: userData = {} } = useQuery({
+        queryKey: ['userData', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users?email=${user?.email}`);
+            return res.data.data;
+        },
+        enabled: !!user?.email
+    });
 
     // Load upazilas on district change
     useEffect(() => {
@@ -31,10 +41,18 @@ const CreateDonationRequest = () => {
     }, [selectedDistrict]);
 
 
+
+
     const onSubmit = async (data) => {
-        // if (userData?.status === "blocked") {
-        //     return toast.error("You are blocked and cannot create a donation request.");
-        // }
+        if (userData?.status === "blocked") {
+            Swal.fire({
+                icon: "error",
+                title: "Blocked",
+                text: "You are blocked and cannot create a donation request.",
+                confirmButtonColor: "#E53935"  // match BloodPoint red
+            });
+            return
+        }
 
         const requestData = {
             ...data,

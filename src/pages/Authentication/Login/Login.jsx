@@ -1,23 +1,24 @@
 import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { logIn, setLoading, loading } = use(AuthContext)
+    const { logIn } = use(AuthContext)
     const [showPassword, setShowPassword] = useState(false);
+    const location = useLocation()
+    const from = location.state?.from || "/";
     const navigate = useNavigate()
     const [loginError, setLoginError] = useState()
+    const [loading, setLoading] = useState()
 
     const onSubmit = async (data) => {
+        setLoading(true)
 
         try {
-            // TODO: replace this with actual login logic
-            // await loginUser(data.email, data.password);
-            console.log("Logging in with", data);
             // login user
             logIn(data.email, data.password)
                 .then(data => {
@@ -29,7 +30,7 @@ const Login = () => {
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        navigate('/')
+                        navigate(from)
                     }
 
                 })
@@ -42,8 +43,9 @@ const Login = () => {
                 title: "Login failed!",
                 text: error.message,
             });
+            setLoading(false)
         }finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -103,9 +105,9 @@ const Login = () => {
                 </form>
 
                 {/* Navigation Link */}
-                <p className="mt-4 text-center text-sm">
+                <p className="mt-4 text-center text-sm text-blue-500">
                     Don't have an account?{" "}
-                    <Link to="/register" className="text-[#CAEB66] font-semibold hover:underline">
+                    <Link to="/register" className="text-red-800 font-semibold hover:underline">
                         Register here
                     </Link>
                 </p>

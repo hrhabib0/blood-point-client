@@ -30,10 +30,9 @@ const SearchDonor = () => {
     const handleSearch = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.get(`http://localhost:3000/donors/search`, {
+            const res = await axios.get(`https://blood-point-server.vercel.app/donors/search`, {
                 params: formData
             });
-            console.log(res.data)
             setDonors(res.data);
         } catch (error) {
             console.error(error);

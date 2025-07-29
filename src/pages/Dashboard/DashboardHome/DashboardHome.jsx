@@ -6,7 +6,7 @@ import AdminHome from './AdminHome';
 
 const DashboardHome = () => {
     const { role } = useUserRole()
-    console.log(role)
+
     if (!role) return <LoadingSpinner></LoadingSpinner>
 
     if (role === 'donor') return <DonorHome />;

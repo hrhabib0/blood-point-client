@@ -20,8 +20,8 @@ const ContentsManagement = () => {
         queryKey: ["blogs", filterStatus],
         queryFn: async () => {
             const query = filterStatus !== "all" ? `?status=${filterStatus}` : "";
-            const res = await axios.get(`http://localhost:3000/content/blogs${query}`);
-            console.log(res.data)
+            const res = await axios.get(`https://blood-point-server.vercel.app/content/blogs${query}`);
+
             return res.data || [];
         },
     });
@@ -34,7 +34,7 @@ const ContentsManagement = () => {
 
     // Publish / Unpublish blog (admin only)
     const togglePublish = async (id, currentStatus) => {
-        console.log(role)
+
         if (!role === "admin") {
             Swal.fire("Unauthorized", "Only admins can change blog status.", "warning");
             return;
@@ -53,9 +53,9 @@ const ContentsManagement = () => {
 
         if (!confirmResult.isConfirmed) return;
         if (confirmResult.isConfirmed) {
-            console.log(newStatus)
+
             try {
-                await axios.patch(`http://localhost:3000/content/blogs/${id}/status`, { status: newStatus });
+                await axios.patch(`https://blood-point-server.vercel.app/content/blogs/${id}/status`, { status: newStatus });
                 Swal.fire("Success", `Blog is now ${newStatus}`, "success");
                 refetch()
             } catch (err) {
@@ -84,7 +84,7 @@ const ContentsManagement = () => {
         if (!confirmResult.isConfirmed) return;
 
         try {
-            await axios.delete(`http://localhost:3000/content/blogs/${id}`);
+            await axios.delete(`https://blood-point-server.vercel.app/content/blogs/${id}`);
             Swal.fire("Deleted!", "Blog has been deleted.", "success");
             refetch()
         } catch (err) {

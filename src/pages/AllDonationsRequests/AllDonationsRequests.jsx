@@ -1,18 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import { FaMapMarkerAlt, FaTint } from 'react-icons/fa';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import axios from 'axios';
 
 
 
 const AllDonationsRequests = () => {
-//   const { user } = useAuth();
-  const axiosSecure = useAxiosSecure();
+
 
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ['pendingDonationRequests'],
     queryFn: async () => {
-      const res = await axiosSecure.get('/donation-requests?status=pending');
+      const res = await axios.get('https://blood-point-server.vercel.app/all-donation-requests?status=pending');
       return res.data;
     }
   });

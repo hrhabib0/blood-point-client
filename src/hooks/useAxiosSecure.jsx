@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/AuthContext/AuthContext';
 
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'https://blood-point-server.vercel.app'
 })
 const useAxiosSecure = () => {
     const { user } = use(AuthContext)

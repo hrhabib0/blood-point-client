@@ -1,12 +1,32 @@
-# React + Vite
+# 🩸 BloodPoint - Blood Donation Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Site:** [https://bloodpoint-web.app](https://bloodpoint-web.app)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔐 **Authentication System**: Secure login, registration, and role-based access (Donor, Admin).
+- 📌 **Create Donation Requests**: Users can submit blood donation requests with recipient details.
+- 📋 **Manage My Requests**: Donors can view, edit, delete, or track the status of their blood requests.
+- ✅ **Admin Dashboard**: Admins can approve, block, or delete donation requests and manage user roles.
+- 🧍‍♂️ **Rider Application System**: Users can apply to become volunteer blood transport riders.
+- 📄 **Blog Management**: Admins can create, publish, update, and delete blood-related blogs.
+- 🧭 **Service Area Mapping**: Displays covered districts with future support for search and pin markers.
+- 🗃️ **Donation History**: Keep track of successful donations and status history.
+- 🌐 **Responsive UI**: Fully mobile and desktop-friendly layout using TailwindCSS and DaisyUI.
+- 💬 **SweetAlerts & Feedback**: User-friendly prompts, success/error alerts, and confirmation dialogs.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React, React Router, Tailwind CSS, DaisyUI, Axios, Jodit React (for rich text)
+- **Backend**: Node.js, Express.js, MongoDB (Atlas)
+- **Auth**: Firebase Authentication, JWT
+- **Image Upload**: ImgBB API
+- **Deployment**: Firebase (client), Vercel (server)
+
+---
+

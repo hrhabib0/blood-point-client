@@ -36,9 +36,8 @@ const AddBlog = () => {
                 content: content,
             };
 
-            const res = await axios.post("http://localhost:3000/content/blogs", blogData);
+            const res = await axios.post("https://blood-point-server.vercel.app/content/blogs", blogData);
 
-            console.log(res.data)
             if (res.data.insertedId) {
                 Swal.fire({
                     icon: "success",

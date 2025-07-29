@@ -24,11 +24,9 @@ const AdminHome = () => {
         queryKey: ["totalDonationRequests"],
         queryFn: async () => {
             const res = await axiosSecure.get("count-donation-requests");
-            console.log("res.data", res.data); // should log: { count: 5 }
             return res.data?.count || 0;
         },
     });
-    console.log('rq', totalRequests)
 
     return (
         <div className="space-y-8">

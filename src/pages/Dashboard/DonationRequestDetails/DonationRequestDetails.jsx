@@ -15,7 +15,6 @@ const DonationRequestDetails = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
 
-    console.log('id ', id)
     // Fetch donation request details
     const { data: request, isLoading, isError } = useQuery({
         queryKey: ['donationRequests', id],
@@ -51,7 +50,6 @@ const DonationRequestDetails = () => {
                 try {
                     const res = await axiosSecure.patch(`/donation-requests/status/${id}`, donationData);
 
-                    console.log(res.data.result)
                     if (res.data?.result?.modifiedCount > 0 || res.data?.result?.acknowledged) {
                         Swal.fire("Success!", "Donation status updated.", "success");
                         queryClient.invalidateQueries({ queryKey: ["donationRequest", id] });
@@ -89,6 +87,15 @@ const DonationRequestDetails = () => {
                 <p><strong>Requester Name:</strong> {request.requesterName}</p>
                 <p><strong>Requester Email:</strong> {request.requesterEmail}</p>
                 <p><strong>Status:</strong> <span className="capitalize">{request.status}</span></p>
+                {
+                    request.status == "inprogress" && (
+                        <>
+                            <p><strong>Donor Name:</strong> {request.donorName}</p>
+                            <p><strong>Donor Email:</strong> {request.donorEmail}</p>
+                            <p><strong>Donor Phone:</strong> {request.donorPhone}</p>
+                        </>
+                    )
+                }
             </div>
 
             {/* Donate button visible only if status is 'pending' */}
