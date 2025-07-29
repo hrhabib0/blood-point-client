@@ -22,7 +22,6 @@ const MyDonationRequests = () => {
         },
         enabled: !!user?.email
     });
-    console.log('my donation', requests)
 
     const filteredRequests = statusFilter
         ? requests.filter(req => req.status === statusFilter)

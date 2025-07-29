@@ -71,6 +71,7 @@ const Register = () => {
                             districtName: sinlgeDistrictData.name,
                             upazila: data.upazila,
                             role: 'donor',
+                            staus: 'active'
                         };
                         const userRes = await axios.post('http://localhost:3000/users', userInfo);
 
