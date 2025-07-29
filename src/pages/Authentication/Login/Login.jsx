@@ -42,7 +42,7 @@ const Login = () => {
                 title: "Login failed!",
                 text: error.message,
             });
-        } finally {
+        }finally {
             setLoading(false);
         }
     };

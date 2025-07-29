@@ -12,7 +12,7 @@ const DonorHome = () => {
     const { data: donationRequests = [], refetch } = useQuery({
         queryKey: ['donationRequests', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/donation-requests?requesterEmail=${user.email}&limit=3`);
+            const res = await axiosSecure.get(`/donation-requests?email=${user.email}&limit=3`);
             return res.data;
         },
         enabled: !!user?.email, // avoid fetching if user not loaded yet
@@ -78,7 +78,7 @@ const DonorHome = () => {
                 Welcome back, {user?.displayName}!
             </h2>
 
-            {donationRequests.length > 0 && (
+            {donationRequests.length > 0 ? (
                 <div className="bg-white p-4 shadow rounded-lg overflow-x-auto">
                     <h3 className="text-lg font-semibold mb-2 text-gray-700">
                         Your Recent Donation Requests
@@ -167,7 +167,7 @@ const DonorHome = () => {
                         </Link>
                     </div>
                 </div>
-            )}
+            ) :(<p className="text-center text-red-800 bg-red-50 p-4 w-1/2 mx-auto mt-10">No request found..</p>)}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
-import { FaHandHoldingHeart, FaHome, FaListAlt, FaTint, FaUser } from 'react-icons/fa';
+import { FaHandHoldingHeart, FaHome, FaListAlt, FaTint, FaUser, FaUsers } from 'react-icons/fa';
 
 const DashboardLayout = () => {
 
@@ -52,7 +52,11 @@ const DashboardLayout = () => {
                                 </NavLink>
                             </li>
                             {/* rolebased links will be here */}
-
+                            <li>
+                                <NavLink to="/dashboard/all-users">
+                                    <FaUsers className="inline mr-2" />All Users
+                                </NavLink>
+                            </li>
 
                             <li>
                                 <NavLink to="/dashboard/create-donation-request">
@@ -89,7 +93,11 @@ const DashboardLayout = () => {
                         </NavLink>
                     </li>
                     {/* rolebased links will be here */}
-
+                    <li>
+                        <NavLink to="/dashboard/all-users">
+                            <FaUsers className="inline mr-2" />All Users
+                        </NavLink>
+                    </li>
 
                     <li>
                         <NavLink to="/dashboard/create-donation-request">

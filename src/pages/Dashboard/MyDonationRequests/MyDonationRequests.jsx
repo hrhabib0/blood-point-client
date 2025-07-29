@@ -14,7 +14,7 @@ const MyDonationRequests = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    const { data: requests = [], isLoading } = useQuery({
+    const { data: requests = [] } = useQuery({
         queryKey: ["donationRequests", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/donation-requests?email=${user.email}`);
@@ -39,7 +39,7 @@ const MyDonationRequests = () => {
         setCurrentPage(1); // Reset to first page when filter changes
     };
 
-    if (isLoading) return <p className="text-center text-gray-600">Loading your donation requests...</p>;
+    
 
     return (
         <div className="p-5 space-y-4">
@@ -76,6 +76,7 @@ const MyDonationRequests = () => {
                         </tr>
                     </thead>
                     <tbody>
+                        
                         {currentItems.length === 0 ? (
                             <tr>
                                 <td colSpan="6" className="text-center py-4 text-gray-500">No donation requests found.</td>
