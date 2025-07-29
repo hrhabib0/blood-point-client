@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
-import { FaHandHoldingHeart, FaHome, FaListAlt, FaTint, FaUser, FaUsers } from 'react-icons/fa';
+import { FaHandHoldingHeart, FaHome, FaListAlt, FaPenNib, FaTint, FaUser, FaUsers } from 'react-icons/fa';
 
 const DashboardLayout = () => {
 
@@ -62,6 +62,11 @@ const DashboardLayout = () => {
                                     <FaTint className="inline mr-2" />All Donation Requests
                                 </NavLink>
                             </li>
+                            <li>
+                                <NavLink to="/dashboard/content-management">
+                                    <FaPenNib className="inline mr-2" />Content Management
+                                </NavLink>
+                            </li>
 
 
 
@@ -108,6 +113,11 @@ const DashboardLayout = () => {
                     <li>
                         <NavLink to="/dashboard/all-blood-donation-request">
                             <FaTint className="inline mr-2" />All Donation Requests
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/content-management">
+                            <FaPenNib className="inline mr-2" />Content Management
                         </NavLink>
                     </li>
 

@@ -16,6 +16,7 @@ import MyDonationRequests from "../pages/Dashboard/MyDonationRequests/MyDonation
 import AllDonationsRequests from "../pages/AllDonationsRequests/AllDonationsRequests";
 import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 import AllBloodRequestAdmin from "../pages/Dashboard/AllBloodRequestAdmin/AllBloodRequestAdmin";
+import ContentsManagement from "../pages/Dashboard/ContentMangement/ContentsManagement";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
             {
                 path: 'all-blood-donation-request',
                 Component: AllBloodRequestAdmin
+            },
+            {
+                path: 'content-management',
+                Component: ContentsManagement
             },
             {
                 path: 'create-donation-request',
