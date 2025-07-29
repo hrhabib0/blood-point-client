@@ -18,6 +18,7 @@ import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
 import AllBloodRequestAdmin from "../pages/Dashboard/AllBloodRequestAdmin/AllBloodRequestAdmin";
 import ContentsManagement from "../pages/Dashboard/ContentMangement/ContentsManagement";
 import AddBlog from "../pages/Dashboard/AddBlog/AddBlog";
+import AdminRoute from "../routes/AdminRoute/AdminRoute";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -75,7 +76,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'content-management',
-                Component: ContentsManagement
+                // Component: ContentsManagement,
+                element: <AdminRoute><ContentsManagement></ContentsManagement></AdminRoute>
             },
             {
                 path: 'content-management/add-blog',

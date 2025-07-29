@@ -10,7 +10,7 @@ const DashboardHome = () => {
     if (!role) return <LoadingSpinner></LoadingSpinner>
 
     if (role === 'donor') return <DonorHome />;
-    if (role === 'admin') return <AdminHome/>;
+    if (role === 'admin' || role === 'volunteer' ) return <AdminHome/>;
 
     return <p>Unknown User</p>
 };

@@ -34,12 +34,13 @@ const ContentsManagement = () => {
 
     // Publish / Unpublish blog (admin only)
     const togglePublish = async (id, currentStatus) => {
+        console.log(role)
         if (!role === "admin") {
             Swal.fire("Unauthorized", "Only admins can change blog status.", "warning");
             return;
         }
-        console.log(currentStatus)
-
+        
+        
         const newStatus = currentStatus === "draft" ? "published" : "draft";
 
         const confirmResult = await Swal.fire({
@@ -167,19 +168,19 @@ const ContentsManagement = () => {
                             </Link> */}
 
                             {/* Publish / Unpublish */}
-                            {role === "admin" && (
-                                <button
-                                    onClick={() => togglePublish(blog._id, blog.status)}
-                                    className={`flex items-center gap-1 px-3 py-1 rounded text-white ${blog.status === "draft"
-                                        ? "bg-green-600 hover:bg-green-700"
-                                        : "bg-yellow-600 hover:bg-yellow-700"
-                                        }`}
-                                    title={blog.status === "draft" ? "Publish blog" : "Unpublish blog"}
-                                >
-                                    {blog.status === "draft" ? <FaUpload /> : <FaDownload />}
-                                    {blog.status === "draft" ? "Publish" : "Unpublish"}
-                                </button>
-                            )}
+
+                            <button
+                                onClick={() => togglePublish(blog._id, blog.status)}
+                                className={`flex items-center gap-1 px-3 py-1 rounded text-white ${blog.status === "draft"
+                                    ? "bg-green-600 hover:bg-green-700"
+                                    : "bg-yellow-600 hover:bg-yellow-700"
+                                    }`}
+                                title={blog.status === "draft" ? "Publish blog" : "Unpublish blog"}
+                            >
+                                {blog.status === "draft" ? <FaUpload /> : <FaDownload />}
+                                {blog.status === "draft" ? "Publish" : "Unpublish"}
+                            </button>
+
 
                             {/* Delete */}
                             {role === "admin" && (

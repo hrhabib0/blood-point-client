@@ -4,6 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { format } from "date-fns";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 
 const AllBloodRequestAdmin = () => {
@@ -13,7 +14,7 @@ const AllBloodRequestAdmin = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    const { data: requests = [] } = useQuery({
+    const { data: requests = [], refetch } = useQuery({
         queryKey: ["donationRequests", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/donation-requests`);
@@ -37,6 +38,29 @@ const AllBloodRequestAdmin = () => {
         setCurrentPage(1); // Reset to first page when filter changes
     };
 
+    const handleStatusChange = async (id, newStatus) => {
+        try {
+            const { isConfirmed } = await Swal.fire({
+                title: `Are you sure you want to mark as ${newStatus}?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, confirm!",
+            });
+
+            if (isConfirmed) {
+                const res = await axiosSecure.patch(`/donation-requests/status/${id}`, {
+                    status: newStatus,
+                });
+                if (res.data?.result?.modifiedCount > 0) {
+                    Swal.fire("Updated!", "Status updated successfully.", "success");
+                    refetch();
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error", "Failed to update status.", "error");
+        }
+    };
 
 
     return (
@@ -95,6 +119,22 @@ const AllBloodRequestAdmin = () => {
                                     </span>
                                 </td>
                                 <td className="border px-4 py-2 text-sm text-blue-600 underline cursor-pointer">
+                                    {req.status === "inprogress" && (
+                                        <>
+                                            <button
+                                                onClick={() => handleStatusChange(req._id, "done")}
+                                                className="bg-green-500 text-white px-2 py-1 rounded text-xs"
+                                            >
+                                                Done
+                                            </button>
+                                            <button
+                                                onClick={() => handleStatusChange(req._id, "canceled")}
+                                                className="bg-red-500 text-white px-2 py-1 rounded text-xs mx-1"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </>
+                                    )}
                                     <Link
                                         to={`/dashboard/donation-request-details/${req._id}`}
                                         className="bg-blue-500 text-white px-2 py-1 rounded text-xs"

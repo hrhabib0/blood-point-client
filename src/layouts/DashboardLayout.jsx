@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 import { FaHandHoldingHeart, FaHome, FaListAlt, FaPenNib, FaTint, FaUser, FaUsers } from 'react-icons/fa';
+import useUserRole from '../hooks/useUserRole';
 
 const DashboardLayout = () => {
+    const {role} = useUserRole()
 
     return (
         <div className="drawer lg:drawer-open">
@@ -52,6 +54,8 @@ const DashboardLayout = () => {
                                 </NavLink>
                             </li>
                             {/* rolebased links will be here */}
+                           {(role === 'admin' || role === 'volunteer')  &&
+                        <>
                             <li>
                                 <NavLink to="/dashboard/all-users">
                                     <FaUsers className="inline mr-2" />All Users
@@ -67,6 +71,8 @@ const DashboardLayout = () => {
                                     <FaPenNib className="inline mr-2" />Content Management
                                 </NavLink>
                             </li>
+                        </>
+                    }
 
 
 
@@ -105,22 +111,25 @@ const DashboardLayout = () => {
                         </NavLink>
                     </li>
                     {/* rolebased links will be here */}
-                    <li>
-                        <NavLink to="/dashboard/all-users">
-                            <FaUsers className="inline mr-2" />All Users
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/all-blood-donation-request">
-                            <FaTint className="inline mr-2" />All Donation Requests
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/content-management">
-                            <FaPenNib className="inline mr-2" />Content Management
-                        </NavLink>
-                    </li>
-
+                    {(role === 'admin' || role === 'volunteer')  &&
+                        <>
+                            <li>
+                                <NavLink to="/dashboard/all-users">
+                                    <FaUsers className="inline mr-2" />All Users
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/all-blood-donation-request">
+                                    <FaTint className="inline mr-2" />All Donation Requests
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/content-management">
+                                    <FaPenNib className="inline mr-2" />Content Management
+                                </NavLink>
+                            </li>
+                        </>
+                    }
 
 
                     <li>
