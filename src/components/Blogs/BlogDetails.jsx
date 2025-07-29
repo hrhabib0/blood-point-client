@@ -1,45 +1,19 @@
 import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 const BlogDetails = () => {
   const { id } = useParams();
-  const [blog, setBlog] = useState(null);
+  const { data: blog, isLoading } = useQuery({
+    queryKey: ["blog-details", id],
+    queryFn: async () => {
+      const res = await axios.get(`https://blood-point-server.vercel.app/content/blogs/${id}`);
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    // Replace this with real fetch from DB/API later
-    const sampleBlogs = [
-      {
-        id: '1',
-        title: 'Why Blood Donation Matters',
-        date: '2025-07-20',
-        image: 'https://i.ibb.co/39psD4wL/blog1-image.jpg',
-        content: `Donating blood is a generous act that can save lives.
-        Every day, hospitals require blood for emergencies, surgeries, cancer treatment, and more.
-        As a donor, you're making a direct impact on someone’s survival.
-        
-        Blood cannot be manufactured; it only comes from people like you. 
-        Healthy individuals should consider donating regularly to ensure a steady supply in the blood bank.`,
-      },
-      {
-        id: '2',
-        title: 'Tips for First Time Donors',
-        date: '2025-07-18',
-        image: 'https://i.ibb.co/WvmcBP6x/blog2-image.png',
-        content: `If you're donating for the first time, don't worry — it's simple and safe.
-        
-        ✅ Eat a healthy meal beforehand.
-        ✅ Stay hydrated.
-        ✅ Bring a valid ID.
-        ✅ Avoid strenuous activities right after donation.
-        
-        The donation process usually takes less than an hour and you'll be given refreshments after.`,
-      },
-    ];
-
-    const selected = sampleBlogs.find(b => b.id === id);
-    setBlog(selected);
-  }, [id]);
-
+  if (isLoading) <LoadingSpinner></LoadingSpinner>
   if (!blog) {
     return (
       <div className="min-h-screen flex justify-center items-center text-xl font-semibold text-gray-600">
