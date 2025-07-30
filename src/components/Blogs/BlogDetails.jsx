@@ -13,7 +13,9 @@ const BlogDetails = () => {
     },
   });
 
-  if (isLoading) <LoadingSpinner></LoadingSpinner>
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   if (!blog) {
     return (
       <div className="min-h-screen flex justify-center items-center text-xl font-semibold text-gray-600">
@@ -23,17 +25,18 @@ const BlogDetails = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
+    <div className="max-w-3xl mx-auto px-4 py-10 bg-red-50" data-aos="zoom-in">
       <h1 className="text-3xl md:text-4xl font-bold text-[#E53935] mb-4">{blog.title}</h1>
-      <p className="text-sm text-gray-500 mb-4">{new Date(blog.date).toDateString()}</p>
+      <p className="text-sm text-gray-500 mb-4">{new Date(blog.createdAt).toDateString()}</p>
       <img
-        src={blog.image}
+        src={blog.thumbnailUrl}
         alt={blog.title}
         className="w-full h-64 object-cover rounded-lg mb-6 shadow"
       />
-      <div className="text-[#1F2937] leading-relaxed whitespace-pre-line text-base bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-        {blog.content}
-      </div>
+      <div
+        className="prose prose-lg mt-6 text-gray-600"
+        dangerouslySetInnerHTML={{ __html: blog.content }}
+      ></div>
     </div>
   );
 };

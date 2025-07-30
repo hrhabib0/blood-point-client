@@ -32,12 +32,12 @@ const AddBlog = () => {
 
             const blogData = {
                 title: data.title,
-                thumbnail: thumbnailUrl,
+                thumbnailUrl,
                 content: content,
             };
 
             const res = await axios.post("https://blood-point-server.vercel.app/content/blogs", blogData);
-
+            console.log(res.data)
             if (res.data.insertedId) {
                 Swal.fire({
                     icon: "success",
@@ -68,7 +68,7 @@ const AddBlog = () => {
             <h2 className="text-2xl font-bold mb-4 text-red-800">Add New Blog</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                    <label className="label font-semibold text-red-400">Blog Title</label>
+                    <label className="label font-semibold text-gray-800">Blog Title</label>
                     <input
                         type="text"
                         placeholder="Enter blog title"
@@ -78,7 +78,7 @@ const AddBlog = () => {
                 </div>
 
                 <div>
-                    <label className="label font-semibold text-red-400">Thumbnail Image</label>
+                    <label className="label font-semibold text-gray-800">Thumbnail Image</label>
                     <input
                         type="file"
                         {...register("thumbnail", { required: true })}
@@ -87,7 +87,7 @@ const AddBlog = () => {
                 </div>
 
                 <div>
-                    <label className="label font-semibold text-red-400">Blog Content</label>
+                    <label className="label font-semibold text-gray-800">Blog Content</label>
                     <JoditEditor
                         ref={editor}
                         value={content}

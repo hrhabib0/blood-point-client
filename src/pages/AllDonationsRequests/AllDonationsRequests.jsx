@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import { FaMapMarkerAlt, FaTint } from 'react-icons/fa';
 import axios from 'axios';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 
 
@@ -17,7 +18,7 @@ const AllDonationsRequests = () => {
   });
 
   if (isLoading) {
-    return <div className="text-center mt-10">Loading...</div>;
+    return <LoadingSpinner/>;
   }
 
   return (

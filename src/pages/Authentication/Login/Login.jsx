@@ -36,6 +36,7 @@ const Login = () => {
                 })
                 .catch(error => {
                     setLoginError(error.message || "something went wrong")
+                    setLoading(false)
                 })
         } catch (error) {
             Swal.fire({

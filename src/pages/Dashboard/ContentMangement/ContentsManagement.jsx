@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { FaTrash, FaEdit, FaUpload, FaDownload } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import useUserRole from "../../../hooks/useUserRole";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 const STATUS_OPTIONS = ["all", "draft", "published"];
 
@@ -16,7 +17,7 @@ const ContentsManagement = () => {
     const blogsPerPage = 6;
 
     // Fetch blogs from backend with optional status filter
-    const { data: blogs = [], refetch } = useQuery({
+    const { data: blogs = [], refetch, isLoading } = useQuery({
         queryKey: ["blogs", filterStatus],
         queryFn: async () => {
             const query = filterStatus !== "all" ? `?status=${filterStatus}` : "";
@@ -25,6 +26,7 @@ const ContentsManagement = () => {
             return res.data || [];
         },
     });
+    console.log(blogs)
 
     // Pagination logic
     const indexOfLast = currentPage * blogsPerPage;
@@ -39,8 +41,8 @@ const ContentsManagement = () => {
             Swal.fire("Unauthorized", "Only admins can change blog status.", "warning");
             return;
         }
-        
-        
+
+
         const newStatus = currentStatus === "draft" ? "published" : "draft";
 
         const confirmResult = await Swal.fire({
@@ -92,6 +94,10 @@ const ContentsManagement = () => {
             Swal.fire("Error", "Failed to delete blog", "error");
         }
     };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <div className="p-6">
