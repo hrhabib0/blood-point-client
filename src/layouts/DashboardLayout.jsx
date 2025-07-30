@@ -36,7 +36,9 @@ const DashboardLayout = () => {
                             <div className="mx-2 flex-1 px-2">Dashboard</div>
                         </div>
                         {/* Page content here */}
-                        <Outlet></Outlet>
+                        <div>
+                            <Outlet></Outlet>
+                        </div>
                         {/* Page content here */}
                     </div>
                     <div className="drawer-side">
@@ -73,9 +75,6 @@ const DashboardLayout = () => {
                             </li>
                         </>
                     }
-
-
-
                             <li>
                                 <NavLink to="/dashboard/create-donation-request">
                                     <FaHandHoldingHeart className="inline mr-2" />Create Donation Request
@@ -130,7 +129,6 @@ const DashboardLayout = () => {
                             </li>
                         </>
                     }
-
 
                     <li>
                         <NavLink to="/dashboard/create-donation-request">

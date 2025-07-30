@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-
 import Swal from "sweetalert2";
 import districtData from "../../../../public/fakeData/districts.json";
 import upazilaData from "../../../../public/fakeData/upazilas.json";
@@ -12,7 +11,6 @@ const EditDonationRequest = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
-  const [selectedDistrictId, setSelectedDistrictId] = useState("");
 
   const {
     register,
@@ -23,26 +21,34 @@ const EditDonationRequest = () => {
     setValue,
   } = useForm();
 
-  // Fetch donation request data
+  const [selectedDistrictId, setSelectedDistrictId] = useState("");
+
   const { data: initialData, isLoading } = useQuery({
     queryKey: ["donation-request", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/donation-requests/${id}`);
       return res.data.data;
     },
-    onSuccess: (initialData) => {
-      reset(initialData); // Pre-fill form with fetched data
-      setSelectedDistrictId(initialData.recipientDistrict); // set district to match upazila
+    onSuccess: (data) => {
+      setSelectedDistrictId(data.recipientDistrict);
+      // reset(data); // This will prefill all values
+
     },
   });
-  useEffect (()=>{
-    if(initialData){
-setValue("recipientName", initialData.recipientName, "recipientDistrict", initialData.recipientDistrict)
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+      setSelectedDistrictId(initialData.recipientDistrict);
     }
-  },[initialData])
+  }, [initialData, reset]);
 
-  // Watch selected district to filter upazilas
-  const districtId = watch("recipientDistrict") || selectedDistrictId;
+  // useEffect(() => {
+  //   if (initialData) {
+  //     setSelectedDistrictId(initialData.recipientDistrict);
+  //   }
+  // }, [initialData]);
+
+  const districtId = watch("recipientDistrict") || selectedDistrictId || "";
 
   const filteredUpazilas = upazilaData.filter(
     (upazila) => upazila.district_id === districtId
@@ -50,10 +56,7 @@ setValue("recipientName", initialData.recipientName, "recipientDistrict", initia
 
   const onSubmit = async (updatedData) => {
     try {
-      const res = await axiosSecure.patch(
-        `/donation-requests/${id}`,
-        updatedData
-      );
+      const res = await axiosSecure.patch(`/donation-requests/${id}`, updatedData);
       if (res.data.modifiedCount > 0) {
         Swal.fire("Success!", "Donation request updated.", "success");
         navigate("/dashboard/my-donation-requests");
@@ -71,7 +74,10 @@ setValue("recipientName", initialData.recipientName, "recipientDistrict", initia
       <h2 className="text-2xl font-bold text-center mb-6 text-[#E53935]">
         Edit Donation Request
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
         <div>
           <label className="label">Recipient Name</label>
           <input
@@ -87,7 +93,10 @@ setValue("recipientName", initialData.recipientName, "recipientDistrict", initia
           <select
             {...register("recipientDistrict", { required: true })}
             className="select select-bordered w-full"
-            onChange={(e) => setSelectedDistrictId(e.target.value)}
+            onChange={(e) => {
+              setValue("recipientDistrict", e.target.value);
+              setSelectedDistrictId(e.target.value);
+            }}
           >
             <option value="">Select a district</option>
             {districtData.map((district) => (

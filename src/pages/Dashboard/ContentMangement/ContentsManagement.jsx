@@ -120,7 +120,7 @@ const ContentsManagement = () => {
                         setCurrentPage(1); // reset page when filter changes
                         setFilterStatus(e.target.value);
                     }}
-                    className="border border-gray-300 rounded px-3 py-1"
+                    className="border border-gray-300 rounded px-3 py-1 focus:text-red-600"
                 >
                     {STATUS_OPTIONS.map((status) => (
                         <option key={status} value={status}>
@@ -172,31 +172,30 @@ const ContentsManagement = () => {
                                 <FaEdit /> Edit
                             </Link> */}
 
-                            {/* Publish / Unpublish */}
-
-                            <button
-                                onClick={() => togglePublish(blog._id, blog.status)}
-                                className={`flex items-center gap-1 px-3 py-1 rounded text-white ${blog.status === "draft"
-                                    ? "bg-green-600 hover:bg-green-700"
-                                    : "bg-yellow-600 hover:bg-yellow-700"
-                                    }`}
-                                title={blog.status === "draft" ? "Publish blog" : "Unpublish blog"}
-                            >
-                                {blog.status === "draft" ? <FaUpload /> : <FaDownload />}
-                                {blog.status === "draft" ? "Publish" : "Unpublish"}
-                            </button>
-
-
                             {/* Delete */}
                             {role === "admin" && (
-                                <button
-                                    onClick={() => deleteBlog(blog._id)}
-                                    className="flex items-center gap-1 px-3 py-1 rounded text-white bg-red-700 hover:bg-red-800"
-                                    title="Delete blog"
-                                >
-                                    <FaTrash />
-                                    Delete
-                                </button>
+                                <>
+                                    {/* Publish / Unpublish */}
+                                    <button
+                                        onClick={() => togglePublish(blog._id, blog.status)}
+                                        className={`flex items-center gap-1 px-3 py-1 rounded text-white ${blog.status === "draft"
+                                            ? "bg-green-600 hover:bg-green-700"
+                                            : "bg-yellow-600 hover:bg-yellow-700"
+                                            }`}
+                                        title={blog.status === "draft" ? "Publish blog" : "Unpublish blog"}
+                                    >
+                                        {blog.status === "draft" ? <FaUpload /> : <FaDownload />}
+                                        {blog.status === "draft" ? "Publish" : "Unpublish"}
+                                    </button>
+                                    <button
+                                        onClick={() => deleteBlog(blog._id)}
+                                        className="flex items-center gap-1 px-3 py-1 rounded text-white bg-red-700 hover:bg-red-800"
+                                        title="Delete blog"
+                                    >
+                                        <FaTrash />
+                                        Delete
+                                    </button>
+                                </>
                             )}
                         </div>
                     </div>

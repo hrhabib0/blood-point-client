@@ -5,10 +5,12 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { format } from "date-fns";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import useUserRole from "../../../hooks/useUserRole";
 
 
 const AllBloodRequestAdmin = () => {
     const { user } = use(AuthContext);
+    const { role } = useUserRole()
     const axiosSecure = useAxiosSecure();
     const [statusFilter, setStatusFilter] = useState(""); // filter by status
     const [currentPage, setCurrentPage] = useState(1);
@@ -165,18 +167,24 @@ const AllBloodRequestAdmin = () => {
                                             </button>
                                         </>
                                     )}
-                                    <Link
-                                        to={`/dashboard/edit-donation-request/${req._id}`}
-                                        className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-                                    >
-                                        Edit
-                                    </Link>
-                                    <button
-                                        onClick={() => handleDelete(req._id)}
-                                        className="bg-red-600 text-white px-2 py-1 rounded text-xs"
-                                    >
-                                        Delete
-                                    </button>
+
+                                    {role === "admin" && (
+                                        <>
+                                            <Link
+                                                to={`/dashboard/edit-donation-request/${req._id}`}
+                                                className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                onClick={() => handleDelete(req._id)}
+                                                className="bg-red-600 text-white px-2 py-1 rounded text-xs"
+                                            >
+                                                Delete
+                                            </button>
+                                        </>
+                                    )}
+
                                     <Link
                                         to={`/dashboard/donation-request-details/${req._id}`}
                                         className="bg-blue-500 text-white px-2 py-1 rounded text-xs"
