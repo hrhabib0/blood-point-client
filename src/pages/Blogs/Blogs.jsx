@@ -9,7 +9,6 @@ const Blogs = () => {
         queryKey: ['blogs'],
         queryFn: async () => {
             const res = await axios.get('https://blood-point-server.vercel.app/content/published-blogs?status=published'); // 🔁 Update API URL if needed
-            console.log(res.data)
             return res.data;
         },
     });
@@ -28,7 +27,7 @@ const Blogs = () => {
                     >
                         <img src={blog.thumbnailUrl} alt={blog.title} className="w-full h-48 object-cover" />
                         <div className="p-5 flex flex-col gap-2">
-                            <p className="text-sm text-gray-500">{new Date(blog.updatedAt).toDateString()}</p>
+                            <p className="text-sm text-gray-500">{new Date(blog.createdAt).toDateString()}</p>
                             <h3 className="text-xl font-semibold text-[#1F2937]">{blog.title}</h3>
                             <p className="text-sm text-[#6B7280]">{blog.excerpt}</p>
                             <Link

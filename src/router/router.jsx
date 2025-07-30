@@ -20,6 +20,7 @@ import ContentsManagement from "../pages/Dashboard/ContentMangement/ContentsMana
 import AddBlog from "../pages/Dashboard/AddBlog/AddBlog";
 import AdminRoute from "../routes/AdminRoute/AdminRoute";
 import EditDonationRequest from "../pages/Dashboard/EditDonationRequest/EditDonationRequest";
+import FundingPage from "../pages/Funding/FundingPage/FundingPage";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
             {
                 path: 'blogs/:id',
                 Component: BlogDetails,
+            },
+            {
+                path: 'funding',
+                element: <PrivateRoute><FundingPage></FundingPage></PrivateRoute>
             }
         ]
 

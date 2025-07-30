@@ -69,7 +69,7 @@ const Register = () => {
                             districtName: sinlgeDistrictData.name,
                             upazila: data.upazila,
                             role: 'donor',
-                            staus: 'active'
+                            status: 'active'
                         };
                         const userRes = await axios.post('https://blood-point-server.vercel.app/users', userInfo);
 

@@ -22,7 +22,7 @@
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, React Router, Tailwind CSS, DaisyUI, Axios, Jodit React (for rich text)
+- **Frontend**: React, React Router, Tailwind CSS, DaisyUI, Axios, Jodit React (for rich text), React Paginate
 - **Backend**: Node.js, Express.js, MongoDB (Atlas)
 - **Auth**: Firebase Authentication, JWT
 - **Image Upload**: ImgBB API

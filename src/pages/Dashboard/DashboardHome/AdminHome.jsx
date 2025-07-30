@@ -3,6 +3,7 @@ import { AuthContext } from "../../../contexts/AuthContext/AuthContext";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { FaUsers, FaDonate, FaTint } from "react-icons/fa";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 
 
@@ -11,7 +12,7 @@ const AdminHome = () => {
     const axiosSecure = useAxiosSecure();
 
     // Fetch total donors (users with role === "donor")
-    const { data: totalDonors = 0 } = useQuery({
+    const { data: totalDonors = 0, isLoading } = useQuery({
         queryKey: ["totalDonors"],
         queryFn: async () => {
             const res = await axiosSecure.get("/users/count/donor");
@@ -28,6 +29,9 @@ const AdminHome = () => {
         },
     });
 
+    if(isLoading){
+        return <LoadingSpinner></LoadingSpinner>
+    }
     return (
         <div className="space-y-8">
             {/* Welcome Message */}

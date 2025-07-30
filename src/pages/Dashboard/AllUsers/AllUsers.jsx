@@ -5,6 +5,7 @@ import { FiMoreVertical } from "react-icons/fi";
 import { FaCheck, FaUserShield, FaUserEdit, FaBan } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 
 const AllUsers = () => {
@@ -13,7 +14,7 @@ const AllUsers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  const { data: users = [], refetch } = useQuery({
+  const { data: users = [], refetch,isLoading } = useQuery({
     queryKey: ["users", filter],
     queryFn: async () => {
       const res = await axiosSecure.get(`/all-users?status=${filter}`);
@@ -103,6 +104,7 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
+            {isLoading && <LoadingSpinner></LoadingSpinner>}
             {currentItems.length === 0 ? (
               <tr>
                 <td colSpan="6" className="text-center py-4 text-gray-500">No donation requests found.</td>

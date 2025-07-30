@@ -26,7 +26,6 @@ const ContentsManagement = () => {
             return res.data || [];
         },
     });
-    console.log(blogs)
 
     // Pagination logic
     const indexOfLast = currentPage * blogsPerPage;
