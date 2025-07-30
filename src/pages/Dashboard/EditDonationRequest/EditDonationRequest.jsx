@@ -6,58 +6,101 @@ import districtData from "../../../../public/fakeData/districts.json";
 import upazilaData from "../../../../public/fakeData/upazilas.json";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+import axios from "axios";
 
 const EditDonationRequest = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm();
-
-  const [selectedDistrictId, setSelectedDistrictId] = useState("");
-
   const { data: initialData, isLoading } = useQuery({
     queryKey: ["donation-request", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/donation-requests/${id}`);
       return res.data.data;
-    },
-    onSuccess: (data) => {
-      setSelectedDistrictId(data.recipientDistrict);
-      // reset(data); // This will prefill all values
-
-    },
-  });
-  useEffect(() => {
-    if (initialData) {
-      reset(initialData);
-      setSelectedDistrictId(initialData.recipientDistrict);
     }
+  });
+
+  const { register, setValue, handleSubmit, reset, formState: { errors } } = useForm();
+
+  useEffect(() => {
+    if (!initialData) return;
+
+    // 1) Find district by NAME from DB
+    const matchedDistrict = districtData.find(
+      (d) => d.name === initialData.recipientDistrict
+    );
+
+    // 2) Build a transformed object for the form:
+    //    - district as ID (for the select)
+    //    - upazila as NAME (matches your option value)
+    const formDefaults = {
+      ...initialData,
+      recipientDistrict: matchedDistrict ? matchedDistrict.id : "",
+      // keep upazila as name — your <option value> is name
+      recipientUpazila: initialData.recipientUpazila || "",
+    };
+
+    // 3) Reset the form (prefill everything)
+    reset(formDefaults);
+
+    // 4) Set selected district id for filtering upazilas
+    setSelectedDistrictId(formDefaults.recipientDistrict);
   }, [initialData, reset]);
 
-  // useEffect(() => {
-  //   if (initialData) {
-  //     setSelectedDistrictId(initialData.recipientDistrict);
-  //   }
-  // }, [initialData]);
+  const [selectedDistrictId, setSelectedDistrictId] = useState('');
+  const [availableUpazilas, setAvailableUpazilas] = useState([]);
 
-  const districtId = watch("recipientDistrict") || selectedDistrictId || "";
+  // Compute available upazilas whenever district changes
+  useEffect(() => {
+    if (!selectedDistrictId) {
+      setAvailableUpazilas([]);
+      return;
+    }
+    const filtered = upazilaData.filter(
+      (u) => u.district_id === selectedDistrictId
+    );
+    setAvailableUpazilas(filtered);
+  }, [selectedDistrictId]);
 
-  const filteredUpazilas = upazilaData.filter(
-    (upazila) => upazila.district_id === districtId
-  );
+  // After upazilas are available, make sure the prefilled upazila (NAME) is set
+  useEffect(() => {
+    if (!initialData) return;
+    // Only set if the prefilled upazila exists in the filtered list
+    const exists = availableUpazilas.some(
+      (u) => u.name === initialData.recipientUpazila
+    );
+    if (exists) {
+      setValue("recipientUpazila", initialData.recipientUpazila);
+    }
+  }, [availableUpazilas, initialData, setValue]);
 
-  const onSubmit = async (updatedData) => {
+  // District change handler (keep upazila as name)
+  const handleDistrictChange = (e) => {
+    const districtId = e.target.value;
+    setSelectedDistrictId(districtId);
+    setValue("recipientDistrict", districtId);
+    setAvailableUpazilas(
+      upazilaData.filter((u) => u.district_id === districtId)
+    );
+    setValue("recipientUpazila", ""); // reset upazila on district change
+  };
+
+
+  const onSubmit = async (data) => {
+    const selectedDistrictObj = districtData.find(
+      (district) => district.id === selectedDistrictId
+    );
+    const districtName = selectedDistrictObj?.name || '';
+    const updatedData = {
+      ...data,
+      recipientDistrictId: selectedDistrictId,
+      recipientDistrict: districtName, // 👈 Send this too
+    };
     try {
-      const res = await axiosSecure.patch(`/donation-requests/${id}`, updatedData);
-      if (res.data.modifiedCount > 0) {
+      const res = await axios.patch(`https://blood-point-server.vercel.app/${initialData._id}`, updatedData);
+      if (res.data?.result?.modifiedCount > 0) {
         Swal.fire("Success!", "Donation request updated.", "success");
         navigate("/dashboard/my-donation-requests");
       }
@@ -67,7 +110,9 @@ const EditDonationRequest = () => {
     }
   };
 
-  if (isLoading) return <span className="loading loading-spinner"></span>;
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
@@ -79,7 +124,7 @@ const EditDonationRequest = () => {
         className="grid grid-cols-1 md:grid-cols-2 gap-4"
       >
         <div>
-          <label className="label">Recipient Name</label>
+          <label className="label text-gray-800">Recipient Name</label>
           <input
             type="text"
             {...register("recipientName", { required: true })}
@@ -89,14 +134,12 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">District</label>
+          <label className="label text-gray-800">District</label>
           <select
             {...register("recipientDistrict", { required: true })}
+            value={selectedDistrictId}
             className="select select-bordered w-full"
-            onChange={(e) => {
-              setValue("recipientDistrict", e.target.value);
-              setSelectedDistrictId(e.target.value);
-            }}
+            onChange={handleDistrictChange}
           >
             <option value="">Select a district</option>
             {districtData.map((district) => (
@@ -109,13 +152,13 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">Upazila</label>
+          <label className="label text-gray-800">Upazila</label>
           <select
             {...register("recipientUpazila", { required: true })}
             className="select select-bordered w-full"
           >
             <option value="">Select an upazila</option>
-            {filteredUpazilas.map((upazila) => (
+            {availableUpazilas.map((upazila) => (
               <option key={upazila.id} value={upazila.name}>
                 {upazila.name}
               </option>
@@ -125,7 +168,7 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">Hospital Name</label>
+          <label className="label text-gray-800">Hospital Name</label>
           <input
             type="text"
             {...register("hospitalName")}
@@ -134,7 +177,7 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">Address Line</label>
+          <label className="label text-gray-800">Address Line</label>
           <input
             type="text"
             {...register("addressLine")}
@@ -143,7 +186,7 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">Blood Group</label>
+          <label className="label text-gray-800">Blood Group</label>
           <select
             {...register("bloodGroup", { required: true })}
             className="select select-bordered w-full"
@@ -158,7 +201,7 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">Donation Date</label>
+          <label className="label text-gray-800">Donation Date</label>
           <input
             type="date"
             {...register("donationDate", { required: true })}
@@ -167,7 +210,7 @@ const EditDonationRequest = () => {
         </div>
 
         <div>
-          <label className="label">Donation Time</label>
+          <label className="label text-gray-800">Donation Time</label>
           <input
             type="time"
             {...register("donationTime", { required: true })}
@@ -176,7 +219,7 @@ const EditDonationRequest = () => {
         </div>
 
         <div className="md:col-span-2">
-          <label className="label">Request Message</label>
+          <label className="label text-gray-800">Request Message</label>
           <textarea
             {...register("requestMessage")}
             className="textarea textarea-bordered w-full"

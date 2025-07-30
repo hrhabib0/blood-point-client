@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
 import useUserRole from "../../../hooks/useUserRole";
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
 
 const AllBloodRequestAdmin = () => {
@@ -16,7 +17,7 @@ const AllBloodRequestAdmin = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    const { data: requests = [], refetch } = useQuery({
+    const { data: requests = [], refetch, isLoading } = useQuery({
         queryKey: ["donationRequests", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/donation-requests`);
@@ -93,6 +94,11 @@ const AllBloodRequestAdmin = () => {
             Swal.fire("Error", "Failed to delete request.", "error");
         }
     };
+
+    // loader
+    if(isLoading){
+        return <LoadingSpinner></LoadingSpinner>
+    }
 
 
     return (
