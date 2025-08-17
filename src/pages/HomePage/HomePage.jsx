@@ -3,6 +3,7 @@ import Banner from '../../components/Homepage/Banner/Banner';
 import Featured from '../../components/Homepage/Featured/Featured';
 import ContactUs from '../../components/Homepage/ContactUs/ContactUs';
 import AboutUsSection from '../../components/Homepage/AboutUsSection/AboutUsSection';
+import Campaign from '../../components/Homepage/Campaign/Campaign';
 
 const HomePage = () => {
     return (
@@ -10,6 +11,7 @@ const HomePage = () => {
             <Banner></Banner>
             <Featured></Featured>
             <AboutUsSection></AboutUsSection>
+            <Campaign></Campaign>
             <ContactUs></ContactUs>
         </div>
     );
