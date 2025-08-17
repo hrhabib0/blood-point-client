@@ -5,6 +5,7 @@ import ContactUs from '../../components/Homepage/ContactUs/ContactUs';
 import AboutUsSection from '../../components/Homepage/AboutUsSection/AboutUsSection';
 import Campaign from '../../components/Homepage/Campaign/Campaign';
 import Reviews from '../../components/Homepage/Reviews/Reviews';
+import CallToAction from '../../components/Homepage/CallToAction/CallToAction';
 
 const HomePage = () => {
     return (
@@ -14,6 +15,7 @@ const HomePage = () => {
             <AboutUsSection></AboutUsSection>
             <Campaign></Campaign>
             <Reviews></Reviews>
+            <CallToAction></CallToAction>
             <ContactUs></ContactUs>
         </div>
     );
