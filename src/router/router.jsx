@@ -21,6 +21,7 @@ import AddBlog from "../pages/Dashboard/AddBlog/AddBlog";
 import AdminRoute from "../routes/AdminRoute/AdminRoute";
 import EditDonationRequest from "../pages/Dashboard/EditDonationRequest/EditDonationRequest";
 import FundingPage from "../pages/Funding/FundingPage/FundingPage";
+import AboutUs from "../pages/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
             {
                 path: 'all-donations-requests',
                 Component: AllDonationsRequests
+            },
+            {
+                path: 'about',
+                Component: AboutUs,
             },
             {
                 path: 'blogs',
