@@ -22,12 +22,14 @@ import AdminRoute from "../routes/AdminRoute/AdminRoute";
 import EditDonationRequest from "../pages/Dashboard/EditDonationRequest/EditDonationRequest";
 import FundingPage from "../pages/Funding/FundingPage/FundingPage";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
     // Root Routes
     {
         path: "/",
         Component: RootLayout,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             { index: true, Component: HomePage },
             {
