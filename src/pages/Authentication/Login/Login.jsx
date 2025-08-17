@@ -51,9 +51,9 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#f4f7fa] py-8 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-8 px-4">
             <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8">
-                <h2 className="text-3xl font-bold text-center text-[#CAEB66] mb-6">Login to Blood Point</h2>
+                <h2 className="text-3xl font-bold text-center text-red-600 mb-6">Login to Blood Point</h2>
 
                 {loginError && <p className='text-red-500'>{loginError}</p>}
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -94,7 +94,7 @@ const Login = () => {
                     {/* Submit */}
                     <button
                         type="submit"
-                        className="btn bg-[#CAEB66] hover:bg-[#b0d950] text-black font-bold w-full"
+                        className="btn bg-red-600 hover:bg-red-700 border-none text-gray-50 font-bold w-full"
                         disabled={loading}
                     >
                         {loading ? (
@@ -106,9 +106,9 @@ const Login = () => {
                 </form>
 
                 {/* Navigation Link */}
-                <p className="mt-4 text-center text-sm text-blue-500">
+                <p className="mt-4 text-center text-sm text-gray-900">
                     Don't have an account?{" "}
-                    <Link to="/register" className="text-red-800 font-semibold hover:underline">
+                    <Link to="/register" className="text-red-600 font-semibold hover:underline">
                         Register here
                     </Link>
                 </p>

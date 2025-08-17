@@ -99,90 +99,92 @@ const Register = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg my-10">
-            <h2 className="text-2xl font-semibold mb-4 text-center text-green-600">Register</h2>
-            <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
-                <input
-                    type="text"
-                    placeholder="Full Name"
-                    {...register('name', { required: true })}
-                    className="input input-bordered w-full"
-                />
-                {errors.name && <span className='text-red-600'>Name is required</span>}
-                <input
-                    type="email"
-                    placeholder="Email"
-                    {...register('email', { required: true })}
-                    className="input input-bordered w-full"
-                />
-                {errors.email && <span className='text-red-600'>Email is required</span>}
-                <input
-                    type="file"
-                    accept="image/*"
-                    {...register('avatar', { required: true })}
-                    className="file-input file-input-bordered w-full"
-                />
-                {errors.avatar && <span className='text-red-600'>Avatar is required</span>}
-                <select
-                    {...register('bloodGroup', { required: true })}
-                    className="select select-bordered w-full"
-                >
-                    <option value="">Select Blood Group</option>
-                    {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((group) => (
-                        <option key={group} value={group}>{group}</option>
-                    ))}
-                </select>
-                {errors.bloodGroup && <span className='text-red-600'>Blood Group is required</span>}
-                <select
-                    {...register('district', { required: true })}
-                    className="select select-bordered w-full"
-                    onChange={(e) => setSelectedDistrict(e.target.value)}
-                >
-                    <option value="">Select District</option>
-                    {districtsData.map((district) => (
-                        <option key={district.id} value={district.id}>
-                            {district.name}
-                        </option>
-                    ))}
-                </select>
-                {errors.district && <span className='text-red-600'>District is required</span>}
-                <select
-                    {...register('upazila', { required: true })}
-                    className="select select-bordered w-full"
-                >
-                    <option value="">Select Upazila</option>
-                    {filteredUpazilas.map((upazila) => (
-                        <option key={upazila.id} value={upazila.name}>
-                            {upazila.name}
-                        </option>
-                    ))}
-                </select>
-                {errors.upazila && <span className='text-red-600'>Upazila is required</span>}
-                <input
-                    type="password"
-                    placeholder="Password"
-                    {...register('password', { required: true })}
-                    className="input input-bordered w-full"
-                />
-                {errors.password && <span className='text-red-600'>Password is required</span>}
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    {...register('confirm_password', {
-                        required: true,
-                        validate: (value) => value === watch('password') || "Passwords do not match",
-                    })}
-                    className="input input-bordered w-full"
-                />
-                {errors.confirm_password && <span className='text-red-600'>{errors.confirm_password.message}</span>}
-                <button type="submit" className="btn btn-success w-full" disabled={loading}>
-                    {loading ? (
-                        <span className="loading loading-spinner loading-sm text-red-700">Loading...</span>
-                    ) : (
-                        'Register'
-                    )}
-                </button>
-            </form>
+        <div className='min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 pt-4 md:pt-20 pb-4 px-4'>
+            <div className="max-w-2xl mx-auto p-6 shadow-md rounded-lg">
+                <h2 className="text-2xl font-semibold mb-4 text-center text-red-600">Register</h2>
+                <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
+                    <input
+                        type="text"
+                        placeholder="Full Name"
+                        {...register('name', { required: true })}
+                        className="input input-bordered w-full"
+                    />
+                    {errors.name && <span className='text-red-600'>Name is required</span>}
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        {...register('email', { required: true })}
+                        className="input input-bordered w-full"
+                    />
+                    {errors.email && <span className='text-red-600'>Email is required</span>}
+                    <input
+                        type="file"
+                        accept="image/*"
+                        {...register('avatar', { required: true })}
+                        className="file-input file-input-bordered w-full"
+                    />
+                    {errors.avatar && <span className='text-red-600'>Avatar is required</span>}
+                    <select
+                        {...register('bloodGroup', { required: true })}
+                        className="select select-bordered w-full"
+                    >
+                        <option value="">Select Blood Group</option>
+                        {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((group) => (
+                            <option key={group} value={group}>{group}</option>
+                        ))}
+                    </select>
+                    {errors.bloodGroup && <span className='text-red-600'>Blood Group is required</span>}
+                    <select
+                        {...register('district', { required: true })}
+                        className="select select-bordered w-full"
+                        onChange={(e) => setSelectedDistrict(e.target.value)}
+                    >
+                        <option value="">Select District</option>
+                        {districtsData.map((district) => (
+                            <option key={district.id} value={district.id}>
+                                {district.name}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.district && <span className='text-red-600'>District is required</span>}
+                    <select
+                        {...register('upazila', { required: true })}
+                        className="select select-bordered w-full"
+                    >
+                        <option value="">Select Upazila</option>
+                        {filteredUpazilas.map((upazila) => (
+                            <option key={upazila.id} value={upazila.name}>
+                                {upazila.name}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.upazila && <span className='text-red-600'>Upazila is required</span>}
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        {...register('password', { required: true })}
+                        className="input input-bordered w-full"
+                    />
+                    {errors.password && <span className='text-red-600'>Password is required</span>}
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        {...register('confirm_password', {
+                            required: true,
+                            validate: (value) => value === watch('password') || "Passwords do not match",
+                        })}
+                        className="input input-bordered w-full"
+                    />
+                    {errors.confirm_password && <span className='text-red-600'>{errors.confirm_password.message}</span>}
+                    <button type="submit" className="btn bg-red-600 text-white border-none w-full" disabled={loading}>
+                        {loading ? (
+                            <span className="loading loading-spinner loading-sm text-red-700">Loading...</span>
+                        ) : (
+                            'Register'
+                        )}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
