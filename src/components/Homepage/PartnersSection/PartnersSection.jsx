@@ -10,12 +10,14 @@ const PartnersSection = () => {
   return (
     <section className="bg-gray-50 dark:bg-gray-900 text-text py-16">
       <div className="max-w-7xl mx-auto px-4 text-center">
-        <h2 className="text-4xl font-bold text-red-600 mb-12">Our Partners & Sponsors</h2>
+        <h2 className="text-4xl font-bold text-red-600 mb-12"  data-aos="fade-up">Our Partners & Sponsors</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 items-center">
-          {partners.map((partner) => (
+          {partners.map((partner,index) => (
             <div
               key={partner.id}
               className="flex justify-center items-center p-4 bg-white rounded-lg shadow hover:shadow-lg transition"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
             >
               <img
                 src={partner.logo}
