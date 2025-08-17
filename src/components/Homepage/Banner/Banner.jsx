@@ -16,18 +16,18 @@ const Banner = () => {
 
             {/* Overlay content */}
             <div className="relative z-10 text-center px-4 md:px-10">
-                <h1 className="text-4xl md:text-6xl font-bold text-red-700 mb-6 leading-tight">
+                <h1 className="text-4xl md:text-6xl font-bold text-red-600 mb-6 leading-tight">
                     Give Blood, Save Lives
                 </h1>
-                <p className="text-lg md:text-xl text-white mb-8 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl text-gray-900 dark:text-gray-50 mb-8 max-w-2xl mx-auto">
                     “A single pint can save three lives, a single gesture can create a million smiles.”
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <Link to="/register" className="btn bg-white text-red-700 hover:bg-red-100 border-none">
+                    <Link to="/register" className="btn bg-gray-50 text-red-700 hover:text-gray-50 hover:bg-red-600 border-red-600 transition">
                         <FaHandHoldingHeart className="text-lg" /> Join as a Donor
                     </Link>
-                    <Link to="/searchDonor" className="btn bg-red-700 text-white hover:bg-red-800 border-none">
+                    <Link to="/searchDonor" className="btn bg-red-600 text-white hover:bg-red-800 border-none">
                         <FaSearchLocation className="text-lg" /> Search Donors
                     </Link>
                 </div>

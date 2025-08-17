@@ -21,14 +21,14 @@ const ContactUs = () => {
     }
     return (
         <div
-            className="bg-white py-16 px-4 md:px-8 lg:px-20"
+            className="bg-gray-50 dark:bg-gray-900 py-16 px-4 md:px-8 lg:px-20"
             id="contact"
             data-aos="fade-up"
         >
             <h2 className="text-3xl md:text-4xl font-bold text-center text-red-600 mb-2">
                 Contact Us
             </h2>
-            <p className="text-center text-gray-600 mb-10">
+            <p className="text-center text-gray-900 dark:text-gray-50 mb-10">
                 We'd love to hear from you. Fill out the form or call us directly.
             </p>
 
@@ -65,7 +65,7 @@ const ContactUs = () => {
                 </form>
 
                 {/* Contact Info */}
-                <div className="space-y-6 text-gray-700">
+                <div className="space-y-6 text-gray-900 dark:text-gray-50">
                     <div className="flex items-center gap-4">
                         <FaPhoneAlt className="text-red-600 text-xl" />
                         <span className="text-lg font-medium">+880 1234 567 890</span>

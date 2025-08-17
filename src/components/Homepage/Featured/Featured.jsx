@@ -2,7 +2,7 @@ import { FaBolt, FaHandHoldingHeart, FaHeart, FaUsers } from 'react-icons/fa'
 
 const Featured = () => {
     return (
-        <section className="py-16 px-4 md:px-8 bg-gradient-to-b from-red-50 via-white to-red-100 text-gray-800">
+        <section className="py-16 px-4 md:px-8 bg-gradient-to-b from-red-50 via-white to-red-100 text-gray-900 ">
             <div className="max-w-7xl mx-auto text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-red-600">Why Donate Blood With Us?</h2>
                 <p className="text-base md:text-lg mb-10 text-gray-600">

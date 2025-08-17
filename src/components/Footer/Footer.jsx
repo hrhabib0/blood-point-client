@@ -3,13 +3,13 @@ import { Link } from 'react-router';
 
 const Footer = () => {
     return (
-        <footer className="bg-red-50 text-red-800 py-10 px-4">
+        <footer className="bg-red-50 dark:bg-gray-900 text-red-800 dark:text-gray-50 py-10 px-4">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
 
                 {/* Logo & About */}
                 <div>
                     <Link to="/" className="flex items-center gap-2 text-2xl font-bold text-red-600">
-                        <FaTint className="text-red-500" />
+                        <FaTint className="text-red-600" />
                         BloodPoint
                     </Link>
                     <p className="mt-2 text-sm">

@@ -2,7 +2,7 @@ import { use, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router';
 import { AuthContext } from '../../contexts/AuthContext/AuthContext';
 import Swal from 'sweetalert2';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaTint } from 'react-icons/fa';
 
 const Navbar = () => {
     const { user, logOut } = use(AuthContext)
@@ -105,7 +105,7 @@ const Navbar = () => {
                     {/* Logo */}
                     <div>
                         <Link to="/" className="text-xl font-bold text-white">
-                            <span className="text-white">🩸 BloodPoint</span>
+                            <span className="text-white flex gap-1 items-center"><FaTint className="text-red-600 hidden md:flex"/> BloodPoint</span>
                         </Link>
                     </div>
                 </div>
