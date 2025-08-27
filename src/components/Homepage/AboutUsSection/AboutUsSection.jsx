@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const AboutUsSection = () => {
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 text-text py-16">
+    <section className="bg-gray-50 dark:bg-gray-900 text-text py-10">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <h2 className="text-4xl font-bold text-red-600 mb-4">About BloodPoint</h2>
         <p className="text-lg mb-6">

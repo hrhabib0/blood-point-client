@@ -23,6 +23,9 @@ import EditDonationRequest from "../pages/Dashboard/EditDonationRequest/EditDona
 import FundingPage from "../pages/Funding/FundingPage/FundingPage";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import FAQ from "../pages/FAQ/FAQ";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+import TermsConditions from "../pages/TermsCondition/TermsCondition";
 
 export const router = createBrowserRouter([
     // Root Routes
@@ -51,6 +54,18 @@ export const router = createBrowserRouter([
             {
                 path: 'about',
                 Component: AboutUs,
+            },
+            {
+                path: 'faq',
+                Component: FAQ,
+            },
+            {
+                path: 'privacy-policy',
+                Component: PrivacyPolicy,
+            },
+            {
+                path: 'terms-and-conditions',
+                Component: TermsConditions,
             },
             {
                 path: 'blogs',
