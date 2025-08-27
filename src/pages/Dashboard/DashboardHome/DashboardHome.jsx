@@ -1,4 +1,3 @@
-import React from 'react';
 import useUserRole from '../../../hooks/useUserRole';
 import LoadingSpinner from '../../../components/LoadingSpinner/LoadingSpinner';
 import DonorHome from './DonorHome';

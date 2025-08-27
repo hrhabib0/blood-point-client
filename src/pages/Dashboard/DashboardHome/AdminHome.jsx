@@ -5,13 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { FaUsers, FaDonate, FaTint } from "react-icons/fa";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 
-
-
 const AdminHome = () => {
     const { user } = use(AuthContext);
     const axiosSecure = useAxiosSecure();
 
-    // Fetch total donors (users with role === "donor")
+    // Fetch total donors
     const { data: totalDonors = 0, isLoading } = useQuery({
         queryKey: ["totalDonors"],
         queryFn: async () => {
@@ -24,59 +22,63 @@ const AdminHome = () => {
     const { data: totalRequests = 0 } = useQuery({
         queryKey: ["totalDonationRequests"],
         queryFn: async () => {
-            const res = await axiosSecure.get("count-donation-requests");
+            const res = await axiosSecure.get("/count-donation-requests");
             return res.data?.count || 0;
         },
     });
 
-    if(isLoading){
-        return <LoadingSpinner></LoadingSpinner>
-    }
+    if (isLoading) return <LoadingSpinner />;
+
+    // Polished card stats array
+    const stats = [
+        {
+            title: "Total Donors",
+            value: totalDonors,
+            icon: <FaUsers />,
+            color: "bg-red-600",
+        },
+        {
+            title: "Blood Donation Requests",
+            value: totalRequests,
+            icon: <FaTint />,
+            color: "bg-[#B71C1C]",
+        },
+        {
+            title: "Total Funding",
+            value: "$1234",
+            icon: <FaDonate />,
+            color: "bg-blue-500",
+        },
+    ];
+
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 p-4 md:p-6">
             {/* Welcome Message */}
-            <div className="bg-white rounded-2xl shadow p-6 border border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-800">
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
                     Welcome back, <span className="text-red-700">{user?.displayName || "Admin"}</span>!
                 </h2>
-                <p className="text-gray-500 mt-1">Here’s a quick overview of the platform’s current status.</p>
+                <p className="text-gray-500 mt-2 text-sm md:text-base">
+                    Here’s a quick overview of the platform’s current status.
+                </p>
             </div>
 
             {/* Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {/* Total Donors */}
-                <div className="bg-white border border-gray-200 rounded-2xl shadow p-6 flex items-center gap-4">
-                    <div className="text-white bg-red-600 rounded-full p-4 text-3xl">
-                        <FaUsers />
+                {stats.map((stat, index) => (
+                    <div
+                        key={index}
+                        className="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 flex items-center gap-5 hover:shadow-xl transition-all duration-300"
+                    >
+                        <div className={`text-white ${stat.color} rounded-full p-4 text-3xl flex items-center justify-center w-16 h-16`}>
+                            {stat.icon}
+                        </div>
+                        <div>
+                            <h3 className="text-2xl md:text-3xl font-bold text-gray-800">{stat.value}</h3>
+                            <p className="text-gray-600 text-sm md:text-base">{stat.title}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 className="text-2xl font-bold text-gray-800">{totalDonors}</h3>
-                        <p className="text-gray-600">Total Donors</p>
-                    </div>
-                </div>
-
-                {/* Total Donation Requests */}
-                <div className="bg-white border border-gray-200 rounded-2xl shadow p-6 flex items-center gap-4">
-                    <div className="text-white bg-crimson-700 rounded-full p-4 text-3xl bg-[#B71C1C]">
-                        <FaTint />
-                    </div>
-                    <div>
-                        <h3 className="text-2xl font-bold text-gray-800">{totalRequests}</h3>
-                        <p className="text-gray-600">Blood Donation Requests</p>
-                    </div>
-                </div>
-
-                {/* Total Funding (Static for now) */}
-                <div className="bg-white border border-gray-200 rounded-2xl shadow p-6 flex items-center gap-4">
-                    <div className="text-white bg-blue-500 rounded-full p-4 text-3xl">
-                        <FaDonate />
-                    </div>
-                    <div>
-                        <h3 className="text-2xl font-bold text-gray-800">$1234</h3>
-                        <p className="text-gray-600">Total Funding</p>
-                        {/* TODO: Replace with dynamic data from funding collection later */}
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );
